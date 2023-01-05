@@ -1,10 +1,17 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 
+
 namespace server_red
 {
     public class DBConnection
     {
         private static OracleConnection? oraCon;
+
+        private static void SetOraCon(OracleConnection oracleConnection)
+        {
+            //Эта строка съела у меня полтора часа моего времени
+            oraCon = (OracleConnection?)oracleConnection.Clone();
+        }
 
         public static OracleConnection? getOraCon()
         {
@@ -29,7 +36,7 @@ namespace server_red
             bool isConnected = false;
             while (!isConnected)
             {
-                //При первом запуске считаем, что пользователь ввёл корректные имя пользователя или пароль
+                //При первом запуске считаем, что админ имеет на руках корректные имя пользователя или пароль.
                 isConnected = true;
 
                 string conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail;
@@ -38,14 +45,15 @@ namespace server_red
                     try
                     {
                         con.Open();
-                        oraCon = con;
+                        SetOraCon(con);
+                        con.Close();
                         return;
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        //Если первый запуск провалился, то GG. Тогда вводим все логин и пароль с клавиатуры.
+                        //Если первый запуск провалился, то GG. Тогда вводим логин и пароль с клавиатуры.
                         isConnected = false;
-                        Console.WriteLine(e.Message);
+                        Console.WriteLine(ex.Message);
 
                         Console.WriteLine("User Id=");
                         string? input = Console.In.ReadLine();

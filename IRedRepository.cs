@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace server_red
+﻿namespace server_red
 {
     public interface IRedRepository
     {

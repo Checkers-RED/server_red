@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Oracle.ManagedDataAccess.Client;
+﻿using Microsoft.AspNetCore.Mvc;
 using server_red.Models;
-using System.Collections.Generic;
 
 namespace server_red.Controllers
 {
@@ -35,7 +31,7 @@ namespace server_red.Controllers
                     cur_s = results[1];
                 }
             }
-           
+
             a.res = r;
             a.cur_s = cur_s;
             return Ok(a);

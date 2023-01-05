@@ -1,6 +1,3 @@
-using System;
-using System.Data;
-using Oracle.ManagedDataAccess.Client;
 using server_red;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +8,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<DBConnection>();
 builder.Services.AddScoped<IRedRepository, RedRepository>();
+
+DBConnection.StartupInitNewConnection(builder.Configuration);
 
 var app = builder.Build();
 
@@ -25,7 +25,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-DBConnection.StartupInitNewConnection(builder.Configuration);
 
 app.Run();
