@@ -12,12 +12,12 @@ namespace server_red.Controllers
             public string? field { get; set; }
         }
 
-        [HttpGet(Name = "GetResult")]
-        public IActionResult Get(string data)
+        [HttpPost(Name = "PostResult")]
+        public IActionResult Get([FromBody] dynamic data)
         {
             try
             {
-                output result = JsonSerializer.Deserialize<output>(data)!;
+                output result = JsonSerializer.Deserialize<output>(data);
                 if (result != null)
                 {
                     if (result.field != null)
@@ -31,6 +31,12 @@ namespace server_red.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpGet(Name = "GetResult")]
+        public IActionResult Get()
+        {
+            return Ok();
         }
     }
 }
