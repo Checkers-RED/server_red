@@ -13,12 +13,11 @@ namespace server_red.Controllers
         }
 
         [HttpGet(Name = "GetResult")]
-        //public IEnumerable<WeatherForecast> Get(string nick, string pass)
-        public IActionResult Get(string input)
+        public IActionResult Get(string data)
         {
             try
             {
-                output result = JsonSerializer.Deserialize<output>(input)!;
+                output result = JsonSerializer.Deserialize<output>(data)!;
                 if (result != null)
                 {
                     if (result.field != null)
