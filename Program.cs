@@ -10,7 +10,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyMethod();
+                          policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                       });//AllowAnyOrigin() - небезопасно. В релизе заменить на WithOrigins("http://85.143.223.149:Client_Port")
 });
 
