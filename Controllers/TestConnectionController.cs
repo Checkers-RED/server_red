@@ -22,7 +22,7 @@ namespace server_red.Controllers
                 {
                     if (result.field != null)
                     {
-                        return Ok(result.field);
+                        return Ok(JsonSerializer.Serialize(result));
                     }
                 }
                 return Ok();
