@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace server_red.Controllers
@@ -22,7 +22,7 @@ namespace server_red.Controllers
                 {
                     if (result.field != null)
                     {
-                        return Ok(JsonSerializer.Serialize(result));
+                        return Ok(result.field);
                     }
                 }
                 return Ok();
