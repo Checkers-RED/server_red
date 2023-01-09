@@ -201,6 +201,36 @@ namespace server_red
             return res!;
         }
 
+        public int EndMatch(string cur_session, string color_win)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("pcolor_win", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = color_win;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.pend_match";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
         public string GetActiveColor(string cur_session)
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;

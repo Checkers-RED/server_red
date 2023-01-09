@@ -74,5 +74,8 @@ namespace server_red
         // Сдаться
         int GiveUp(string cur_session);
 
+        // Завершить матч
+        int EndMatch(string cur_session, string color_win);
+
     }
 }
