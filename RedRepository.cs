@@ -365,6 +365,46 @@ namespace server_red
             return res!;
         }
 
+        public Opponent GetOpponentInfo(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PGET_OPPONENT_INFO";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            Opponent o = new Opponent();
+            if (dr.HasRows)
+            {
+                dr.Read();
+                if (dr.GetValue(0).ToString() != "")
+                {
+                    o.uid = Convert.ToInt32(dr.GetValue(0).ToString());
+                    o.nick = dr.GetValue(1).ToString()!;
+                    o.photo = dr.GetValue(2).ToString()!;
+                    if (dr.GetValue(3).ToString()!.Length == 0)
+                    {
+                        return o;
+                    }
+                    o.score = Convert.ToInt32(dr.GetValue(3).ToString());
+                    return o;
+                }
+            }
+            else
+            {
+                //res = "none";
+            }
+            return o;
+        }
+
         public UserScore GetUserScore(string cur_session)
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -433,6 +473,36 @@ namespace server_red
             return res!;
         }
 
+        public int InRankedMatch(string cur_session, int rules)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("prules", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = rules;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PIN_RANKED_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
         public int InviteFriend(string cur_session, int f_id, int move_time, int rules_id)
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -442,6 +512,64 @@ namespace server_red
             cmd.Parameters.Add("prulesid", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = rules_id;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
             cmd.CommandText = "PCK_RED.PINVITE_FRIEND_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
+        public int IsInMatch(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PIS_IN_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
+        public int OutRankedMatch(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "POUT_RANKED_MATCH";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
