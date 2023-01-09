@@ -9,28 +9,24 @@ namespace server_red.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class RejectMatchController : Controller
+    public class OutRankedMatchController : Controller
     {
-        class input
-        {
-            public string? current_session { get; set; }
-            public string org_nick { get; set; }
-        }
+
         private readonly IRedRepository _db;
-        public RejectMatchController(IRedRepository db)
+        public OutRankedMatchController(IRedRepository db)
         {
             _db = db;
         }
 
-        [HttpPost(Name = "RejectMatch")]
+        [HttpPost(Name = "OutRankedMatch")]
         public IActionResult Get([FromBody] dynamic data)
         {
             try
             {
-                input inres = JsonSerializer.Deserialize<CurSession>(data);
-                if (inres != null)
+                CurSession curs = JsonSerializer.Deserialize<CurSession>(data);
+                if (curs != null)
                 {
-                    int res = _db.RejectMatch(inres.current_session!, inres.org_nick);
+                    int res = _db.OutRankedMatch(curs.current_session!);
 
                     if (res == 1)
                     {

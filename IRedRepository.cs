@@ -77,5 +77,17 @@ namespace server_red
         // Завершить матч
         int EndMatch(string cur_session, string color_win);
 
+        // Получить характеристики оппонента (id, ник, аватар, очки)
+        Opponent GetOpponentInfo(string cur_session);
+
+        // Встать в очередь игроков в рейтинговый матч
+        int InRankedMatch(string cur_session, int rules);
+
+        // Выйти из очереди игроков в рейтинговый матч
+        int OutRankedMatch(string cur_session);
+
+        // Проверка того, что пользователю сопоставлен матч
+        int IsInMatch(string cur_session);
+
     }
 }
