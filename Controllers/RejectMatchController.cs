@@ -14,7 +14,7 @@ namespace server_red.Controllers
         class input
         {
             public string? current_session { get; set; }
-            public int org_id { get; set; }
+            public string org_nick { get; set; }
         }
         private readonly IRedRepository _db;
         public RejectMatchController(IRedRepository db)
@@ -30,7 +30,7 @@ namespace server_red.Controllers
                 input inres = JsonSerializer.Deserialize<CurSession>(data);
                 if (inres != null)
                 {
-                    int res = _db.RejectMatch(inres.current_session!, inres.org_id);
+                    int res = _db.RejectMatch(inres.current_session!, inres.org_nick);
 
                     if (res == 1)
                     {
