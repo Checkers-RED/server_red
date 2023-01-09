@@ -20,7 +20,7 @@ namespace server_red.Controllers
         {
             _db = db;
         }
-        [HttpPost(Name = "GetCurSesChangePass")]
+        [HttpPost(Name = "ChangePass")]
         public IActionResult Get([FromBody] dynamic data)//(string token, string newPass)
         {
             try

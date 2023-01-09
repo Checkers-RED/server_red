@@ -15,7 +15,7 @@ namespace server_red.Controllers
             _db = db;
         }
 
-        [HttpPost(Name = "GetUserSearch")]
+        [HttpPost(Name = "SearchUser")]
         public IActionResult Get([FromBody] dynamic data)//(string username)
         { // входные данные: nick
             try

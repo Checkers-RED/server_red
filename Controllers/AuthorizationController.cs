@@ -22,7 +22,7 @@ namespace server_red.Controllers
             _db = db; // RedRepository(c);
         }
 
-        [HttpPost(Name = "GetAuthorization")]
+        [HttpPost(Name = "Authorization")]
         //public IEnumerable<WeatherForecast> Get(string nick, string pass)
         public IActionResult Get ([FromBody] dynamic data)//(string nick, string pass)
 
