@@ -10,7 +10,7 @@ namespace server_red.Controllers
     {
         class input
         {
-            public string? cur_session { get; set; }
+            public string? current_session { get; set; }
             public int f_id { get; set; }
             public int move_time { get; set; }
             public int rules_id { get; set; }
@@ -30,7 +30,7 @@ namespace server_red.Controllers
                 input res = JsonSerializer.Deserialize<input>(data);
                 if (res != null)
                 {
-                    int result = _db.InviteFriend(res.cur_session!, res.f_id, res.move_time, res.rules_id);
+                    int result = _db.InviteFriend(res.current_session!, res.f_id, res.move_time, res.rules_id);
 
                     if (result == 1)
                     {

@@ -30,14 +30,14 @@ namespace server_red.Controllers
                 {
                     output result = new output();
                     result.friendlist = _db.GetFriendlist(curs.current_session!);
-                    if (result.friendlist.Count > 0)
-                    {
+                    //if (result.friendlist.Count > 0)
+                    //{
                         return Ok(JsonSerializer.Serialize(result.friendlist));
-                    }
-                    else
-                    {
-                        return BadRequest();
-                    }
+                    //}
+                   // else
+                    //{
+                    //    return BadRequest();
+                    //}
                 }
                 else
                 {

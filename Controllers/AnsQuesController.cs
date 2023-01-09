@@ -24,7 +24,7 @@ namespace server_red.Controllers
         {
             _db = db;
         }
-        [HttpPost(Name = "GetPassToken")]
+        [HttpPost(Name = "AnsQues")]
         public IActionResult Get([FromBody] dynamic data)//(string token, string ans)
         {
             try

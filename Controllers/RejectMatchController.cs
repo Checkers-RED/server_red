@@ -30,7 +30,7 @@ namespace server_red.Controllers
                 input inres = JsonSerializer.Deserialize<CurSession>(data);
                 if (inres != null)
                 {
-                    int res = _db.RevokeMatch(inres.current_session!, inres.org_id);
+                    int res = _db.RejectMatch(inres.current_session!, inres.org_id);
 
                     if (res == 1)
                     {

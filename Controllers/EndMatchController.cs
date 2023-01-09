@@ -1,36 +1,39 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server_red.Models;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace server_red.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class DeleteFriendController : Controller
+    public class EndMatchController : Controller
     {
         class input
         {
             public string? current_session { get; set; }
-            public int f_id { get; set; }
+            public string? color_win { get; set; }
         }
 
         private readonly IRedRepository _db;
-        public DeleteFriendController(IRedRepository db)
+        public EndMatchController(IRedRepository db)
         {
             _db = db;
         }
 
-        [HttpPost(Name = "DeleteFriend")]
-        public IActionResult Get([FromBody] dynamic data)//(string cur_s, int fid)
+        [HttpPost(Name = "EndMatch")]
+        public IActionResult Get([FromBody] dynamic data)
         {
             try
             {
-                input res = JsonSerializer.Deserialize<input>(data);
-                if (res != null)
+                input inres = JsonSerializer.Deserialize<input>(data);
+                if (inres != null)
                 {
-                    int result = _db.DeleteFriend(res.current_session!, res.f_id);
+                    int res = _db.EndMatch(inres.current_session!, inres.color_win!);
 
-                    if (result == 1)
+                    if (res == 1)
                     {
                         return Ok();
                     }
@@ -48,18 +51,6 @@ namespace server_red.Controllers
             {
                 return BadRequest();
             }
-
-
-            /*int res = _db.DeleteFriend(cur_s, fid);
-
-            if (res == 1)
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }*/
         }
     }
 }

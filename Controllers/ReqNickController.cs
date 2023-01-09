@@ -19,7 +19,7 @@ namespace server_red.Controllers
         {
             _db = db;
         }
-        [HttpPost(Name = "GetRnick")]
+        [HttpPost(Name = "ReqNick")]
         public IActionResult Get([FromBody] dynamic data)//(string nick)
         {
             ReqNick r = new ReqNick();

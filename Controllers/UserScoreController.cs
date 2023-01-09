@@ -15,7 +15,7 @@ namespace server_red.Controllers
             _db = db;
         }
 
-        [HttpPost(Name = "GetUserScore")]
+        [HttpPost(Name = "UserScore")]
         public IActionResult Get([FromBody] dynamic data)//(string cur_s)
         {
             try
