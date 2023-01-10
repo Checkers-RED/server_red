@@ -89,5 +89,13 @@ namespace server_red
         // Проверка того, что пользователю сопоставлен матч
         int IsInMatch(string cur_session);
 
+        // Получение информации об игре
+        GameInfo GetGameInfo(string cur_session);
+
+        // Запись ходов
+        void InsertMovesList(string cur_session, string note);
+
+        // Получение списка ходов
+        List<Move> GetMovesList(string cur_session);
     }
 }

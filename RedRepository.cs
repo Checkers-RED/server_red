@@ -327,6 +327,81 @@ namespace server_red
             return res!;
         }
 
+        public GameInfo GetGameInfo(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PGET_GAME_INFO";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            GameInfo g = new GameInfo();
+            if (dr.HasRows)
+            {
+                dr.Read();
+                if (dr.GetValue(0).ToString() != "")
+                {
+                    g.nick1 = dr.GetValue(0).ToString()!;
+                    g.score1 = Convert.ToInt32(dr.GetValue(1).ToString()!);
+                    g.nick2 = dr.GetValue(2).ToString()!;
+                    g.score2 = Convert.ToInt32(dr.GetValue(3).ToString()!);
+                    g.move_time = Convert.ToInt32(dr.GetValue(4).ToString()!);
+                    g.rules_id = Convert.ToInt32(dr.GetValue(5).ToString()!);
+                    //return g;
+                }
+            }
+            /*else
+            {
+                //res = "none";
+            }*/
+            return g;
+        }
+
+        public List<Move> GetMovesList(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PGET_MOVESLIST";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            List<Move> res = new List<Move>();
+            if (dr.HasRows)
+            {
+                while (dr.Read())
+                {
+                    if (dr.GetValue(0).ToString() != "")
+                    {
+                        Move m = new Move();
+                        m.num = Convert.ToInt32(dr.GetValue(0).ToString());
+                        m.note = dr.GetValue(1).ToString()!;
+                        res.Add(m);
+                    }
+                }
+            }
+            else
+            {
+                //res = "none";
+            }
+            return res!;
+        }
+
         public List<Notif> GetNotiflist(string cur_session)
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -501,6 +576,37 @@ namespace server_red
                 res = 0;
             }
             return res!;
+        }
+
+        public void InsertMovesList(string cur_session, string note)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("pnote", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = note;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PINSERT_MOVES_LIST";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                //cmd.ExecuteReader();
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            /*int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = -1;
+            }
+            return res!;*/
         }
 
         public int InviteFriend(string cur_session, int f_id, int move_time, int rules_id)
