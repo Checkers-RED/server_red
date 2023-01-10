@@ -14,6 +14,10 @@ namespace server_red.Controllers
             public string? cur_session { get; set; }
             public List<Checker> white = new List<Checker>();
             public List<Checker> black = new List<Checker>();
+            public int previous_horiz { get; set; }
+            public int previous_vertic { get; set; }
+            public int new_horiz { get; set; }
+            public int new_vertic { get; set; }
         }
 
         private readonly IRedRepository _db;
@@ -21,53 +25,7 @@ namespace server_red.Controllers
         {
             _db = db;
         }
-        [HttpPost(Name = "UpdateCheckersField" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "" +
-            "")]
+        [HttpPost(Name = "UpdateCheckersField")]
         public IActionResult Get([FromBody] dynamic data)
         {
             try
@@ -96,6 +54,106 @@ namespace server_red.Controllers
                         {
                             return BadRequest();
                         }
+                    }
+
+                    if (inres.previous_horiz > 0 && inres.previous_vertic > 0 && inres.new_horiz > 0 && inres.new_vertic > 0)
+                    {
+                        string prev = "";
+                        switch (inres.previous_horiz)
+                        {
+                            case 1:
+                                {
+                                    prev = "A" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    prev = "B" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    prev = "C" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    prev = "D" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    prev = "E" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 6:
+                                {
+                                    prev = "F" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 7:
+                                {
+                                    prev = "G" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            case 8:
+                                {
+                                    prev = "H" + inres.previous_vertic.ToString();
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+                        string newh = "";
+
+                        switch (inres.new_horiz)
+                        {
+                            case 1:
+                                {
+                                    newh = "A" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    newh = "B" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    newh = "C" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    newh = "D" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 5:
+                                {
+                                    newh = "E" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 6:
+                                {
+                                    newh = "F" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 7:
+                                {
+                                    newh = "G" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            case 8:
+                                {
+                                    newh = "H" + inres.new_vertic.ToString();
+                                    break;
+                                }
+                            default:
+                                break;
+                        }
+
+                        string note = prev + "-" + newh;
+                        _db.InsertMovesList(inres.cur_session!, note);
                     }
                     return Ok();
                 }
