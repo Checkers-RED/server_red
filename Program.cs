@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DBConnection>();
 builder.Services.AddScoped<IRedRepository, RedRepository>();
 
-DBConnection.StartupInitNewConnection(builder.Configuration);
+//DBConnection.StartupInitNewConnection(builder.Configuration);
 
 var app = builder.Build();
 
@@ -38,4 +38,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+var timers = RedTimers.TimersAsync(builder.Configuration);
+var appRun = app.RunAsync();
+await Task.WhenAll(appRun, timers);
+
+//app.Run();

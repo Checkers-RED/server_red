@@ -97,5 +97,21 @@ namespace server_red
 
         // Получение списка ходов
         List<Move> GetMovesList(string cur_session);
+
+        // Получение текущего цвета хода и даты-времени начала хода
+        ActMoveTimeColor GetActMoveTimeColor(string cur_session);
+
+        // Создание нового матча по рейтинговому списку
+        void NewMatch();
+
+        // Получение id того, кого пользователь приглашал в матч
+        int GetInvitedFriendId(string cur_session);
+
+        // Проверка того, что пользователь находится в очереди в рейтинговый матч
+        int IsInRankedMatch(string cur_session);
+
+        // Проверка того, что пользователь находится в очереди в рейтинговый матч
+        int IsNotInRankedMatch(string cur_session);
+
     }
 }

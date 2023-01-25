@@ -260,6 +260,35 @@ namespace server_red
             return res!;
         }
 
+        public ActMoveTimeColor GetActMoveTimeColor(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.pget_actcolor_dttime";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            ActMoveTimeColor m = new ActMoveTimeColor();
+            if (dr.HasRows)
+            {
+                dr.Read();
+                if (dr.GetValue(0).ToString() != "")
+                {
+                    m.color = dr.GetValue(0).ToString();
+                    m.dttime = dr.GetBoolean(1).ToString();
+                }
+            }
+            return m;
+        }
+
         public int GetBeatFlag(string cur_session)
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -363,6 +392,35 @@ namespace server_red
                 //res = "none";
             }*/
             return g;
+        }
+
+        public int GetInvitedFriendId(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PGET_INVITED_FID";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res;
         }
 
         public List<Move> GetMovesList(string cur_session)
@@ -554,7 +612,7 @@ namespace server_red
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("prules", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = rules;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PIN_RANKED_MATCH";
+            cmd.CommandText = "PCK_RED.PIN_RANKED_MATCH";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -566,7 +624,7 @@ namespace server_red
             }
             catch (Exception ex) { Console.WriteLine(ex); }
             int res;
-            if (dr.HasRows)
+            if (dr!.HasRows)
             {
                 dr.Read();
                 res = Convert.ToInt32(dr.GetValue(0).ToString()!);
@@ -668,6 +726,92 @@ namespace server_red
                 res = 0;
             }
             return res!;
+        }
+
+        public int IsInRankedMatch(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PIS_IN_RANKED_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
+        public int IsNotInRankedMatch(string cur_session)
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "PCK_RED.PISNOT_IN_RANKED_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;
+        }
+
+        public void NewMatch()
+        {
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
+            cmd.CommandText = "POUT_RNEW_MATCH";
+
+            if (con != null && con.State != System.Data.ConnectionState.Open)
+            {
+                con.Open();
+            }
+            try
+            {
+                dr = cmd.ExecuteReader();
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+            /*int res;
+            if (dr.HasRows)
+            {
+                dr.Read();
+                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+            }
+            else
+            {
+                res = 0;
+            }
+            return res!;*/
         }
 
         public int OutRankedMatch(string cur_session)
