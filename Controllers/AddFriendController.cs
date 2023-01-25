@@ -10,9 +10,9 @@ namespace server_red.Controllers
     [ApiController]
     public class AddFriendController : Controller
     {
-        class output
+        class input
         {
-            public string? cur_session { get; set; }
+            public string? current_session { get; set; }
             public int f_id { get; set; }
         }
 
@@ -27,10 +27,10 @@ namespace server_red.Controllers
         {
             try
             {
-                output res = JsonSerializer.Deserialize<output>(data);
-                if (res != null)
+                input inres = JsonSerializer.Deserialize<input>(data);
+                if (inres != null)
                 {
-                    int result = _db.AddFriend(res.cur_session!, res.f_id);
+                    int result = _db.AddFriend(inres.current_session!, inres.f_id);
 
                     if (result == 1)
                     {
