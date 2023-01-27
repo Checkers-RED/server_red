@@ -236,7 +236,7 @@ namespace server_red
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PGET_ACTIVE_COLOR";
+            cmd.CommandText = "PCK_RED.GET_ACTIVE_COLOR";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -294,7 +294,7 @@ namespace server_red
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PGET_BEAT_FLAG";
+            cmd.CommandText = "PCK_RED.PGET_BEAT_FLAG";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -399,7 +399,7 @@ namespace server_red
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PGET_INVITED_FID";
+            cmd.CommandText = "PCK_RED.PGET_INVITED_FID";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -642,7 +642,7 @@ namespace server_red
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pnote", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = note;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PINSERT_MOVES_LIST";
+            cmd.CommandText = "PCK_RED.PINSERT_MOVES_LIST";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -790,7 +790,7 @@ namespace server_red
         {
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "POUT_RNEW_MATCH";
+            cmd.CommandText = "PCK_RED.POUT_RNEW_MATCH";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -819,7 +819,7 @@ namespace server_red
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "POUT_RANKED_MATCH";
+            cmd.CommandText = "PCK_RED.POUT_RANKED_MATCH";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
