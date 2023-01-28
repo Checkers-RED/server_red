@@ -25,11 +25,12 @@ namespace server_red
             string? pwd = config.GetSection("ConnectionStrings").GetSection("pwd").Value;
             string? db = config.GetSection("ConnectionStrings").GetSection("db").Value;
             string? tail = config.GetSection("ConnectionStrings").GetSection("tail").Value;
+            string? pool = config.GetSection("ConnectionStrings").GetSection("pool").Value;
 
-            InitNewConnection(user, pwd, db, tail);
+            InitNewConnection(user, pwd, db, tail, pool);
         }
 
-        public static void InitNewConnection(string? user, string? pwd, string? db, string? tail)
+        public static void InitNewConnection(string? user, string? pwd, string? db, string? tail, string? pool)
         {
             DestroyConnection();
 
@@ -39,7 +40,7 @@ namespace server_red
                 //При первом запуске считаем, что админ имеет на руках корректные имя пользователя или пароль.
                 isConnected = true;
 
-                string conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail;
+                string conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail + ";" + pool;
                 using (OracleConnection con = new OracleConnection(conStringUser))
                 {
                     try

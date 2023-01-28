@@ -35,15 +35,16 @@ namespace server_red
             }
             catch (Exception ex) { Console.WriteLine(ex); }
             int res;
-            if (dr.HasRows)
+            if (dr!.HasRows)
             {
                 dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                res = Convert.ToInt32(dr.GetValue(0));
             }
             else
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -74,6 +75,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -104,6 +106,7 @@ namespace server_red
             {
                 res = "";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -134,6 +137,7 @@ namespace server_red
             {
                 res = "";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -168,6 +172,7 @@ namespace server_red
             {
                 res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -198,6 +203,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -228,6 +234,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -236,7 +243,7 @@ namespace server_red
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
-            cmd.CommandText = "PCK_RED.GET_ACTIVE_COLOR";
+            cmd.CommandText = "PCK_RED.PGET_ACTIVE_COLOR";
 
             if (con != null && con.State != System.Data.ConnectionState.Open)
             {
@@ -257,6 +264,7 @@ namespace server_red
             {
                 res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -286,6 +294,7 @@ namespace server_red
                     m.dttime = dr.GetBoolean(1).ToString();
                 }
             }
+            dr.CloseAsync();
             return m;
         }
 
@@ -315,6 +324,7 @@ namespace server_red
             {
                 res = -1;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -353,6 +363,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -391,6 +402,7 @@ namespace server_red
             {
                 //res = "none";
             }*/
+            dr.CloseAsync();
             return g;
         }
 
@@ -411,15 +423,16 @@ namespace server_red
             }
             catch (Exception ex) { Console.WriteLine(ex); }
             int res;
-            if (dr.HasRows)
+            if (dr!.HasRows)
             {
                 dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                res = Convert.ToInt32(dr.GetValue(0)!);
             }
             else
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res;
         }
 
@@ -457,6 +470,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -495,6 +509,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -535,6 +550,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return o;
         }
 
@@ -574,6 +590,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return u;
         }
 
@@ -603,6 +620,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -633,6 +651,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -654,6 +673,7 @@ namespace server_red
                 dr = cmd.ExecuteReader();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
+            dr.CloseAsync();
             /*int res;
             if (dr.HasRows)
             {
@@ -696,6 +716,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -725,6 +746,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -754,6 +776,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -783,6 +806,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -801,6 +825,7 @@ namespace server_red
                 dr = cmd.ExecuteReader();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
+            dr.CloseAsync();
             /*int res;
             if (dr.HasRows)
             {
@@ -840,6 +865,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -870,6 +896,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -906,6 +933,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return r;// res!;
         }
 
@@ -936,6 +964,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -994,6 +1023,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1052,6 +1082,7 @@ namespace server_red
             {
                 //res = "none";
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1082,6 +1113,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1112,6 +1144,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1181,6 +1214,7 @@ namespace server_red
             //}
 
             //return res_list;
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1216,6 +1250,7 @@ namespace server_red
             {
                 res = 0;
             }
+            dr.CloseAsync();
             return res!;
         }
 
@@ -1246,6 +1281,7 @@ namespace server_red
                     u.photo = dr.GetValue(2).ToString()!;
                 }
             }
+            dr.CloseAsync();
             return u;
         }
     }

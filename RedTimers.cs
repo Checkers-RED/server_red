@@ -43,6 +43,8 @@ namespace server_red
                  dr = cd.ExecuteReader();
              }
              catch (Exception ex) { Console.WriteLine(ex); }
+            cn!.CloseAsync();
+            dr!.CloseAsync();
          }
     }
 }
