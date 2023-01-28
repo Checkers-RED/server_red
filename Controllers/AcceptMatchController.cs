@@ -27,7 +27,7 @@ namespace server_red.Controllers
         {
             try
             {
-                input inres = JsonSerializer.Deserialize<CurSession>(data);
+                input inres = JsonSerializer.Deserialize<input>(data);
                 if (inres != null)
                 {
                     int res = _db.AcceptMatch(inres.current_session!, inres.org_nick!);

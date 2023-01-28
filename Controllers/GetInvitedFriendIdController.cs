@@ -11,7 +11,7 @@ namespace server_red.Controllers
     {
         class output
         {
-            public int id;
+            public int f_id { get; set; }
         }
 
         private readonly IRedRepository _db;
@@ -22,32 +22,38 @@ namespace server_red.Controllers
         [HttpPost(Name = "GetInvitedFriendId")]
         public IActionResult Get([FromBody] dynamic data)//(string cur_session)
         {
-            CurSession curs = new CurSession();
+            //CurSession curs = new CurSession();
             try
             {
-                curs = JsonSerializer.Deserialize<CurSession>(data);
+                CurSession curs = JsonSerializer.Deserialize<CurSession>(data);
                 if (curs != null)
                 {
-                    output res = new output();
-                    res.id = _db.GetInvitedFriendId(curs.current_session!);
+                    output res = new()
+                    {
+                        f_id = _db.GetInvitedFriendId(curs.current_session!)
+                    };
+                    //res.id = _db.GetInvitedFriendId(curs.current_session!);
 
-                    if (res.id > 0)
+                    if (res.f_id > 0)
                     {
                         return Ok(JsonSerializer.Serialize(res));
                     }
                     else
                     {
-                        return BadRequest();
+                        return Ok(JsonSerializer.Serialize(10));
+                        //return BadRequest();
                     }
                 }
                 else
                 {
-                    return BadRequest();
+                    return Ok(JsonSerializer.Serialize(20));
+                    //return BadRequest();
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return Ok(JsonSerializer.Serialize(30));
+                //return BadRequest();
             }
         }
     }
