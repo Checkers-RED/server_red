@@ -558,7 +558,7 @@ namespace server_red
                 dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            return res;
+            return res!;
         }
 
         public Opponent GetOpponentInfo(string cur_session)
