@@ -22,22 +22,21 @@ namespace server_red.Controllers
         [HttpPost(Name = "GetNotifs")]
         public IActionResult Get([FromBody] dynamic data)//(string cur_session)
         {
-            CurSession curs = new CurSession();
             try
             {
-                curs = JsonSerializer.Deserialize<CurSession>(data);
+                CurSession curs = JsonSerializer.Deserialize<CurSession>(data);
                 if (curs != null)
                 {
                     output result = new output();
                     result.notifslist = _db.GetNotiflist(curs.current_session!);
-                    //if (result.notifslist.Count > 0)
-                    //{
+                    if (result.notifslist.Count > 0)
+                    {
                         return Ok(JsonSerializer.Serialize(result.notifslist));
-                    //}
-                    //else
-                   // {
-                    //    return BadRequest();
-                    //}
+                    }
+                    else
+                    {
+                        return Ok();
+                    }
                 }
                 else
                 {
