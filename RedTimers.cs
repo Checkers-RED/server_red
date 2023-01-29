@@ -42,7 +42,7 @@ namespace server_red
              {
                  dr = cd.ExecuteReader();
                 dr!.Close();
-                Console.WriteLine("NewMatch timer");
+                //Console.WriteLine("NewMatch timer");
             }
             catch (Exception ex) { Console.WriteLine(ex); }
             //cn!.Close();
