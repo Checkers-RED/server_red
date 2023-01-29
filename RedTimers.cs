@@ -7,7 +7,7 @@ namespace server_red
 {
     public class RedTimers
     {
-        private static IRedRepository _db;
+        private static IRedRepository? _db;
         private static OracleConnection? con;
         private static OracleCommand? cmd;
         private static OracleDataReader? dr;
@@ -16,7 +16,7 @@ namespace server_red
         public static async Task TimersAsync(IConfiguration configuration)
          {
              DBConnection.StartupInitNewConnection(configuration);
-             con = DBConnection.getOraCon();
+             con = DBConnection.getOraCon(configuration);
              cmd = con!.CreateCommand();
              config = configuration;
 
@@ -43,8 +43,8 @@ namespace server_red
                  dr = cd.ExecuteReader();
              }
              catch (Exception ex) { Console.WriteLine(ex); }
-            cn!.CloseAsync();
-            dr!.CloseAsync();
+            //cn!.Close();
+            dr!.Close();
          }
     }
 }

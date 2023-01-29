@@ -6,6 +6,7 @@ namespace server_red
     public class DBConnection
     {
         private static OracleConnection? oraCon;
+        private static OracleCommand? oraCmd;
 
         private static void SetOraCon(OracleConnection oracleConnection)
         {
@@ -13,8 +14,20 @@ namespace server_red
             oraCon = (OracleConnection?)oracleConnection.Clone();
         }
 
-        public static OracleConnection? getOraCon()
+        public static OracleConnection? getOraCon(IConfiguration config)
         {
+            try
+            {
+                oraCmd = oraCon!.CreateCommand();
+                oraCmd.CommandType = System.Data.CommandType.Text;
+                oraCmd.CommandText = "Update test_table set dt = sysdate where idd = 13";
+                oraCmd.ExecuteReader();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                StartupInitNewConnection(config);
+            }
             return oraCon;
         }
 

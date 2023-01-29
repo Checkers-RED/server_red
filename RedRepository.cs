@@ -1,24 +1,29 @@
 ﻿using Oracle.ManagedDataAccess.Client;
 using server_red.Models;
+using System.Configuration;
 
 namespace server_red
 {
     public class RedRepository : IRedRepository
     {
         private static OracleConnection? con;
-        private OracleCommand cmd;
+        private OracleCommand? cmd;
         private OracleDataReader? dr;
         private IConfiguration config;
 
         public RedRepository(IConfiguration configuration)
         {
-            con = DBConnection.getOraCon();
-            cmd = con.CreateCommand();
+            //con = DBConnection.getOraCon(configuration);
+            //cmd = con.CreateCommand();
             config = configuration;
         }
 
         public int AcceptMatch(string cur_session, string org_nick)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("org_nick", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = org_nick;
@@ -29,27 +34,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr!.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0));
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr!.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0));
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public int AddFriend(string cur_session, int f_id)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pfid", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = f_id;
@@ -60,27 +68,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public string AnsQues(string token, string answer)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
             cmd.Parameters.Add("panswer", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = answer;
@@ -91,27 +102,30 @@ namespace server_red
             {
                 con.Open();
             }
+            string res = "";
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = dr.GetValue(0).ToString()!;
+                }
+                else
+                {
+                    res = "";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            string res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = dr.GetValue(0).ToString()!;
-            }
-            else
-            {
-                res = "";
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public string ChangePass(string token, string newPass)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
             cmd.Parameters.Add("pnew_pass", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = newPass;
@@ -122,27 +136,30 @@ namespace server_red
             {
                 con.Open();
             }
+            string res = "";
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = dr.GetValue(0).ToString()!;
+                }
+                else
+                {
+                    res = "";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            string res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = dr.GetValue(0).ToString()!;
-            }
-            else
-            {
-                res = "";
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public string CreateAccount(string username, string password, string question, string answer)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
             cmd.Parameters.Add("ppass", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = password;
@@ -157,27 +174,31 @@ namespace server_red
             {
                 con.Open();
             }
+            string res = "none";
             try
             {
                 dr = cmd.ExecuteReader();
+
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = dr.GetValue(0).ToString()!;
+                }
+                else
+                {
+                    res = "none";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            string res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = dr.GetValue(0).ToString()!;
-            }
-            else
-            {
-                res = "none";
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int DeleteFriend(string cur_session, int f_id)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pfid", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = f_id;
@@ -188,27 +209,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int EndMatch(string cur_session, string color_win)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pcolor_win", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = color_win;
@@ -219,27 +243,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public string GetActiveColor(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -249,27 +276,30 @@ namespace server_red
             {
                 con.Open();
             }
+            string res = "none";
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = dr.GetValue(0).ToString()!;
+                }
+                else
+                {
+                    res = "none";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            string res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = dr.GetValue(0).ToString()!;
-            }
-            else
-            {
-                res = "none";
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public ActMoveTimeColor GetActMoveTimeColor(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -279,27 +309,30 @@ namespace server_red
             {
                 con.Open();
             }
+            ActMoveTimeColor m = new ActMoveTimeColor();
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
+                    {
+                        m.color = dr.GetValue(0).ToString();
+                        m.dttime = dr.GetBoolean(1).ToString();
+                    }
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            ActMoveTimeColor m = new ActMoveTimeColor();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
-                {
-                    m.color = dr.GetValue(0).ToString();
-                    m.dttime = dr.GetBoolean(1).ToString();
-                }
-            }
-            dr.CloseAsync();
             return m;
         }
 
         public int GetBeatFlag(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -309,27 +342,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = -1;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = -1;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = -1;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public List<User> GetFriendlist(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -339,36 +375,39 @@ namespace server_red
             {
                 con.Open();
             }
+            List<User> res = new List<User>();
             try
             {
                 dr = cmd.ExecuteReader();
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            List<User> res = new List<User>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
+                if (dr.HasRows)
                 {
-                    if (dr.GetValue(0).ToString() != "")
+                    while (dr.Read())
                     {
-                        User u = new User();
-                        u.uid = Convert.ToInt32(dr.GetValue(0).ToString());
-                        u.nick = dr.GetValue(1).ToString()!;
-                        u.photo = dr.GetValue(2).ToString()!;
-                        res.Add(u);
+                        if (dr.GetValue(0).ToString() != "")
+                        {
+                            User u = new User();
+                            u.uid = Convert.ToInt32(dr.GetValue(0).ToString());
+                            u.nick = dr.GetValue(1).ToString()!;
+                            u.photo = dr.GetValue(2).ToString()!;
+                            res.Add(u);
+                        }
                     }
                 }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
+            catch (Exception ex) { Console.WriteLine(ex); }
             return res!;
         }
 
         public GameInfo GetGameInfo(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -378,36 +417,39 @@ namespace server_red
             {
                 con.Open();
             }
+            GameInfo g = new GameInfo();
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
+                    {
+                        g.nick1 = dr.GetValue(0).ToString()!;
+                        g.score1 = Convert.ToInt32(dr.GetValue(1).ToString()!);
+                        g.nick2 = dr.GetValue(2).ToString()!;
+                        g.score2 = Convert.ToInt32(dr.GetValue(3).ToString()!);
+                        g.move_time = Convert.ToInt32(dr.GetValue(4).ToString()!);
+                        g.rules_id = Convert.ToInt32(dr.GetValue(5).ToString()!);
+                        //return g;
+                    }
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            GameInfo g = new GameInfo();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
-                {
-                    g.nick1 = dr.GetValue(0).ToString()!;
-                    g.score1 = Convert.ToInt32(dr.GetValue(1).ToString()!);
-                    g.nick2 = dr.GetValue(2).ToString()!;
-                    g.score2 = Convert.ToInt32(dr.GetValue(3).ToString()!);
-                    g.move_time = Convert.ToInt32(dr.GetValue(4).ToString()!);
-                    g.rules_id = Convert.ToInt32(dr.GetValue(5).ToString()!);
-                    //return g;
-                }
-            }
             /*else
             {
                 //res = "none";
             }*/
-            dr.CloseAsync();
             return g;
         }
 
         public int GetInvitedFriendId(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -417,27 +459,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr!.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0)!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr!.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0)!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
             return res;
         }
 
         public List<Move> GetMovesList(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -447,35 +492,38 @@ namespace server_red
             {
                 con.Open();
             }
+            List<Move> res = new List<Move>();
             try
             {
                 dr = cmd.ExecuteReader();
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            List<Move> res = new List<Move>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
+                if (dr.HasRows)
                 {
-                    if (dr.GetValue(0).ToString() != "")
+                    while (dr.Read())
                     {
-                        Move m = new Move();
-                        m.num = Convert.ToInt32(dr.GetValue(0).ToString());
-                        m.note = dr.GetValue(1).ToString()!;
-                        res.Add(m);
+                        if (dr.GetValue(0).ToString() != "")
+                        {
+                            Move m = new Move();
+                            m.num = Convert.ToInt32(dr.GetValue(0).ToString());
+                            m.note = dr.GetValue(1).ToString()!;
+                            res.Add(m);
+                        }
                     }
                 }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
-            return res!;
+            catch (Exception ex) { Console.WriteLine(ex); }
+            return res;
         }
 
         public List<Notif> GetNotiflist(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -485,36 +533,39 @@ namespace server_red
             {
                 con.Open();
             }
+            List<Notif> res = new List<Notif>();
             try
             {
                 dr = cmd.ExecuteReader();
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            List<Notif> res = new List<Notif>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
+                if (dr.HasRows)
                 {
-                    if (dr.GetValue(0).ToString() != "")
+                    while (dr.Read())
                     {
-                        Notif n = new Notif();
-                        n.type = Convert.ToInt32(dr.GetValue(1).ToString());
-                        n.actEl1 = dr.GetValue(2).ToString()!;
-                        n.actEl2 = dr.GetValue(3).ToString()!;
-                        res.Add(n);
+                        if (dr.GetValue(0).ToString() != "")
+                        {
+                            Notif n = new Notif();
+                            n.type = Convert.ToInt32(dr.GetValue(1).ToString());
+                            n.actEl1 = dr.GetValue(2).ToString()!;
+                            n.actEl2 = dr.GetValue(3).ToString()!;
+                            res.Add(n);
+                        }
                     }
                 }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
-            return res!;
+            catch (Exception ex) { Console.WriteLine(ex); }
+            return res;
         }
 
         public Opponent GetOpponentInfo(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -524,38 +575,41 @@ namespace server_red
             {
                 con.Open();
             }
+            Opponent o = new Opponent();
             try
             {
                 dr = cmd.ExecuteReader();
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            Opponent o = new Opponent();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
+                if (dr.HasRows)
                 {
-                    o.uid = Convert.ToInt32(dr.GetValue(0).ToString());
-                    o.nick = dr.GetValue(1).ToString()!;
-                    o.photo = dr.GetValue(2).ToString()!;
-                    if (dr.GetValue(3).ToString()!.Length == 0)
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
                     {
+                        o.uid = Convert.ToInt32(dr.GetValue(0).ToString());
+                        o.nick = dr.GetValue(1).ToString()!;
+                        o.photo = dr.GetValue(2).ToString()!;
+                        if (dr.GetValue(3).ToString()!.Length == 0)
+                        {
+                            return o;
+                        }
+                        o.score = Convert.ToInt32(dr.GetValue(3).ToString());
                         return o;
                     }
-                    o.score = Convert.ToInt32(dr.GetValue(3).ToString());
-                    return o;
                 }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
+            catch (Exception ex) { Console.WriteLine(ex); }
             return o;
         }
 
         public UserScore GetUserScore(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -565,37 +619,40 @@ namespace server_red
             {
                 con.Open();
             }
+            UserScore u = new UserScore();
             try
             {
                 dr = cmd.ExecuteReader();
-            }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            UserScore u = new UserScore();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
+                if (dr.HasRows)
                 {
-                    u.nick = dr.GetValue(0).ToString()!;
-                    u.photo = dr.GetValue(1).ToString()!;
-                    if (dr.GetValue(2).ToString().Length == 0)
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
                     {
+                        u.nick = dr.GetValue(0).ToString()!;
+                        u.photo = dr.GetValue(1).ToString()!;
+                        if (dr.GetValue(2).ToString()!.Length == 0)
+                        {
+                            return u;
+                        }
+                        u.score = Convert.ToInt32(dr.GetValue(2).ToString());
                         return u;
                     }
-                    u.score = Convert.ToInt32(dr.GetValue(2).ToString());
-                    return u;
                 }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
+            catch (Exception ex) { Console.WriteLine(ex); }
             return u;
         }
 
         public int GiveUp(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -605,27 +662,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public int InRankedMatch(string cur_session, int rules)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("prules", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = rules;
@@ -636,27 +696,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr!.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr!.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public void InsertMovesList(string cur_session, string note)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pnote", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = note;
@@ -671,9 +734,9 @@ namespace server_red
             {
                 //cmd.ExecuteReader();
                 dr = cmd.ExecuteReader();
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            dr.CloseAsync();
             /*int res;
             if (dr.HasRows)
             {
@@ -689,6 +752,9 @@ namespace server_red
 
         public int InviteFriend(string cur_session, int f_id, int move_time, int rules_id)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pfid", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = f_id;
@@ -701,27 +767,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int IsInMatch(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -731,27 +800,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int IsInRankedMatch(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -761,27 +833,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int IsNotInRankedMatch(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -791,27 +866,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public void NewMatch()
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
             cmd.CommandText = "PCK_RED.POUT_RNEW_MATCH";
@@ -823,9 +901,9 @@ namespace server_red
             try
             {
                 dr = cmd.ExecuteReader();
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            dr.CloseAsync();
             /*int res;
             if (dr.HasRows)
             {
@@ -841,6 +919,9 @@ namespace server_red
 
         public int OutRankedMatch(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -850,27 +931,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public int RejectMatch(string cur_session, string org_nick)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("org_nick", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = org_nick;
@@ -881,27 +965,33 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
-            catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
+            catch (Exception ex)
             {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                Console.WriteLine(ex);
             }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public ReqNick ReqNick(string username)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -911,34 +1001,37 @@ namespace server_red
             {
                 con.Open();
             }
+            ReqNick r = new ReqNick();
             try
             {
                 dr = cmd.ExecuteReader();
+                //List <string> res = new List<string>();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
+                    {
+                        r.token = dr.GetValue(0).ToString()!;
+                        //res.Add(dr.GetValue(0).ToString()!);
+                        r.question = dr.GetValue(1).ToString()!;
+                        //res.Add(dr.GetValue(1).ToString()!);
+                    }
+                }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            //List <string> res = new List<string>();
-            ReqNick r = new ReqNick();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
-                {
-                    r.token = dr.GetValue(0).ToString()!;
-                    //res.Add(dr.GetValue(0).ToString()!);
-                    r.question = dr.GetValue(1).ToString()!;
-                    //res.Add(dr.GetValue(1).ToString()!);
-                }
-            }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
             return r;// res!;
         }
 
         public int RevokeMatch(string cur_session, int f_id)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pfid", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = f_id;
@@ -949,27 +1042,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public List<Checker> SessionCheckersBlack(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -979,56 +1075,59 @@ namespace server_red
             {
                 con.Open();
             }
+            List<Checker> res = new List<Checker>();
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        try
+                        {
+                            if (dr.GetValue(0).ToString() != "")
+                            {
+                                Checker c = new Checker();
+                                c.color = dr.GetValue(0).ToString();
+                                c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
+                                c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
+                                if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
+                                {
+                                    c.isQueen = true;
+                                }
+                                else
+                                {
+                                    c.isQueen = false;
+                                }
+                                if (Convert.ToInt32(dr.GetValue(4).ToString()) == 1)
+                                {
+                                    c.isBeaten = true;
+                                }
+                                else
+                                {
+                                    c.isBeaten = false;
+                                }
+                                res.Add(c);
+                            }
+                        }
+                        catch (Exception ex) { }
+                    }
+                }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            List<Checker> res = new List<Checker>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    try
-                    {
-                        if (dr.GetValue(0).ToString() != "")
-                        {
-                            Checker c = new Checker();
-                            c.color = dr.GetValue(0).ToString();
-                            c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
-                            c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
-                            if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
-                            {
-                                c.isQueen = true;
-                            }
-                            else
-                            {
-                                c.isQueen = false;
-                            }
-                            if (Convert.ToInt32(dr.GetValue(4).ToString()) == 1)
-                            {
-                                c.isBeaten = true;
-                            }
-                            else
-                            {
-                                c.isBeaten = false;
-                            }
-                            res.Add(c);
-                        }
-                    }
-                    catch (Exception ex) { }
-                }
-            }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public List<Checker> SessionCheckersWhite(string cur_session)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -1038,56 +1137,59 @@ namespace server_red
             {
                 con.Open();
             }
+            List<Checker> res = new List<Checker>();
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        try
+                        {
+                            if (dr.GetValue(0).ToString() != "")
+                            {
+                                Checker c = new Checker();
+                                c.color = dr.GetValue(0).ToString();
+                                c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
+                                c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
+                                if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
+                                {
+                                    c.isQueen = true;
+                                }
+                                else
+                                {
+                                    c.isQueen = false;
+                                }
+                                if (Convert.ToInt32(dr.GetValue(4).ToString()) == 1)
+                                {
+                                    c.isBeaten = true;
+                                }
+                                else
+                                {
+                                    c.isBeaten = false;
+                                }
+                                res.Add(c);
+                            }
+                        }
+                        catch (Exception ex) { }
+                    }
+                }
+                else
+                {
+                    //res = "none";
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            List<Checker> res = new List<Checker>();
-            if (dr.HasRows)
-            {
-                while (dr.Read())
-                {
-                    try
-                    {
-                        if (dr.GetValue(0).ToString() != "")
-                        {
-                            Checker c = new Checker();
-                            c.color = dr.GetValue(0).ToString();
-                            c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
-                            c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
-                            if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
-                            {
-                                c.isQueen = true;
-                            }
-                            else
-                            {
-                                c.isQueen = false;
-                            }
-                            if (Convert.ToInt32(dr.GetValue(4).ToString()) == 1)
-                            {
-                                c.isBeaten = true;
-                            }
-                            else
-                            {
-                                c.isBeaten = false;
-                            }
-                            res.Add(c);
-                        }
-                    }
-                    catch(Exception ex) { }
-                }
-            }
-            else
-            {
-                //res = "none";
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public int SetActiveColor(string cur_session, string color)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("color", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = color;
@@ -1098,27 +1200,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public int SetBeatFlag(string cur_session, int beat_flag)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pbeatf", OracleDbType.Int32, System.Data.ParameterDirection.Input).Value = beat_flag;
@@ -1129,28 +1234,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
-            return res!;
+            return res;
         }
 
         public string SignIn(string username, string password)
         {
-
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
             cmd.Parameters.Add("ppass", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = password;
@@ -1163,63 +1270,66 @@ namespace server_red
             {
                 con.Open();
             }
+            string res = "none";
             try
             {
                 // cmd.ExecuteReader();
                 dr = cmd.ExecuteReader();
+                //List<string> res_list = new List<string>(1);
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    //res_list.Add(dr.GetValue(0).ToString()!);
+                    res = dr.GetValue(0).ToString()!;
+                }
+                else
+                {
+                    //res_list.Add("0");
+                    res = "none";
+                }
+
+                //List<string> res_list = new List<string>(2);
+                //string res = cmd.Parameters["res"].Value.ToString()!;
+                //if (res != null)
+                //{
+                //res_list.Add(item: res.ToString()!);
+                //    res_list.Add(res);
+                //    if (Convert.ToInt32(res) != 0)
+                //     {
+                //object cur_session = cmd.Parameters["pcur_session"].Value;
+                //        string cur_session = cmd.Parameters["pcur_session"].Value.ToString()!;
+                //res_list.Add(item: cur_session.ToString()!);
+                //         res_list.Add(cur_session);
+                //      }
+                /*
+                if (Convert.ToInt32(res) != 0) // здесь вылетает ошибка
+                {
+                    object cur_session = cmd.Parameters["pcur_session"].Value;
+                    res_list.Add(item: cur_session.ToString());
+                }
+                */
+                //    }
+                //    else
+                //   {
+                //        res_list.Add("0");
+                //   }
+                //if (con.State == System.Data.ConnectionState.Open)
+                //{
+                //    con.Close();
+                //}
+
+                //return res_list;
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            //List<string> res_list = new List<string>(1);
-            string res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                //res_list.Add(dr.GetValue(0).ToString()!);
-                res = dr.GetValue(0).ToString()!;
-            }
-            else
-            {
-                //res_list.Add("0");
-                res = "none";
-            }
-
-            //List<string> res_list = new List<string>(2);
-            //string res = cmd.Parameters["res"].Value.ToString()!;
-            //if (res != null)
-            //{
-            //res_list.Add(item: res.ToString()!);
-            //    res_list.Add(res);
-            //    if (Convert.ToInt32(res) != 0)
-            //     {
-            //object cur_session = cmd.Parameters["pcur_session"].Value;
-            //        string cur_session = cmd.Parameters["pcur_session"].Value.ToString()!;
-            //res_list.Add(item: cur_session.ToString()!);
-            //         res_list.Add(cur_session);
-            //      }
-            /*
-            if (Convert.ToInt32(res) != 0) // здесь вылетает ошибка
-            {
-                object cur_session = cmd.Parameters["pcur_session"].Value;
-                res_list.Add(item: cur_session.ToString());
-            }
-            */
-            //    }
-            //    else
-            //   {
-            //        res_list.Add("0");
-            //   }
-            //if (con.State == System.Data.ConnectionState.Open)
-            //{
-            //    con.Close();
-            //}
-
-            //return res_list;
-            dr.CloseAsync();
             return res!;
         }
 
         public int UpdateCheckersField(string cur_session, string color, int fx, int fy, int king, int beaten, bool delete_old)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
             cmd.Parameters.Add("pcolor", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = color;
@@ -1235,27 +1345,30 @@ namespace server_red
             {
                 con.Open();
             }
+            int res = 0;
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    res = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                }
+                else
+                {
+                    res = 0;
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            int res;
-            if (dr.HasRows)
-            {
-                dr.Read();
-                res = Convert.ToInt32(dr.GetValue(0).ToString()!);
-            }
-            else
-            {
-                res = 0;
-            }
-            dr.CloseAsync();
             return res!;
         }
 
         public User UserSearch(string username)
         {
+            con = DBConnection.getOraCon(config);
+            cmd = con!.CreateCommand();
+            cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -1265,23 +1378,23 @@ namespace server_red
             {
                 con.Open();
             }
+            User u = new User();
             try
             {
                 dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    if (dr.GetValue(0).ToString() != "")
+                    {
+                        u.uid = Convert.ToInt32(dr.GetValue(0).ToString()!);
+                        u.nick = dr.GetValue(1).ToString()!;
+                        u.photo = dr.GetValue(2).ToString()!;
+                    }
+                }
+                dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
-            User u = new User();
-            if (dr.HasRows)
-            {
-                dr.Read();
-                if (dr.GetValue(0).ToString() != "")
-                {
-                    u.uid = Convert.ToInt32(dr.GetValue(0).ToString()!);
-                    u.nick = dr.GetValue(1).ToString()!;
-                    u.photo = dr.GetValue(2).ToString()!;
-                }
-            }
-            dr.CloseAsync();
             return u;
         }
     }
