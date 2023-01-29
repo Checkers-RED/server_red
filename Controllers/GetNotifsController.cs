@@ -29,14 +29,14 @@ namespace server_red.Controllers
                 {
                     output result = new output();
                     result.notifslist = _db.GetNotiflist(curs.current_session!);
-                    if (result.notifslist.Count > 0)
-                    {
+                   // if (result.notifslist.Count > 0)
+                   // {
                         return Ok(JsonSerializer.Serialize(result.notifslist));
-                    }
-                    else
-                    {
-                        return Ok();
-                    }
+                   // }
+                   // else
+                   // {
+                     //   return Ok();
+                   // }
                 }
                 else
                 {
