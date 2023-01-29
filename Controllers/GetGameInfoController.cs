@@ -24,7 +24,7 @@ namespace server_red.Controllers
                 if (curs != null)
                 {
                     GameInfo g = _db.GetGameInfo(curs.current_session!);
-                    if (g != null && g.nick1 != null && g.nick1 != "")
+                    if (g != null && g.white_nick != null && g.white_nick != "")
                     {
                         return Ok(JsonSerializer.Serialize(g));
                     }
