@@ -13,6 +13,7 @@ namespace server_red.Controllers
         {
             public List<Checker> white = new List<Checker>();
             public List<Checker> black = new List<Checker>();
+            public List<Checker> all_checkers = new List<Checker>();
         }
 
         private readonly IRedRepository _db;
@@ -32,10 +33,18 @@ namespace server_red.Controllers
                     output res = new output();
                     res.white = _db.SessionCheckersWhite(curs.current_session!);
                     res.black = _db.SessionCheckersBlack(curs.current_session!);
+                    for (int i = 0; i < res.white.Count; i++)
+                    {
+                        res.all_checkers.Add(res.white[i]);
+                    }
+                    for (int i = 0; i < res.black.Count; i++)
+                    {
+                        res.all_checkers.Add(res.black[i]);
+                    }
 
                     if (res.white.Count > 0 && res.black.Count > 0)
                     {
-                        return Ok(JsonSerializer.Serialize(res));
+                        return Ok(JsonSerializer.Serialize(res.all_checkers));
                     }
                     else
                     {
