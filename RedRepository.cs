@@ -426,10 +426,10 @@ namespace server_red
                     dr.Read();
                     if (dr.GetValue(0).ToString() != "")
                     {
-                        g.nick1 = dr.GetValue(0).ToString()!;
-                        g.score1 = Convert.ToInt32(dr.GetValue(1).ToString()!);
-                        g.nick2 = dr.GetValue(2).ToString()!;
-                        g.score2 = Convert.ToInt32(dr.GetValue(3).ToString()!);
+                        g.white_nick = dr.GetValue(0).ToString()!;
+                        g.white_score = Convert.ToInt32(dr.GetValue(1).ToString()!);
+                        g.black_nick = dr.GetValue(2).ToString()!;
+                        g.black_score = Convert.ToInt32(dr.GetValue(3).ToString()!);
                         g.move_time = Convert.ToInt32(dr.GetValue(4).ToString()!);
                         g.rules_id = Convert.ToInt32(dr.GetValue(5).ToString()!);
                         //return g;

@@ -41,10 +41,12 @@ namespace server_red
              try
              {
                  dr = cd.ExecuteReader();
-             }
-             catch (Exception ex) { Console.WriteLine(ex); }
+                dr!.Close();
+                Console.WriteLine("NewMatch timer");
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
             //cn!.Close();
-            dr!.Close();
+            //dr!.Close();
          }
     }
 }

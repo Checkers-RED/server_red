@@ -21,6 +21,10 @@ namespace server_red
                 oraCmd = oraCon!.CreateCommand();
                 oraCmd.CommandType = System.Data.CommandType.Text;
                 oraCmd.CommandText = "Update test_table set dt = sysdate where idd = 13";
+                if (oraCon != null && oraCon.State != System.Data.ConnectionState.Open)
+                {
+                    oraCon.Open();
+                }
                 oraCmd.ExecuteReader();
             }
             catch (Exception ex)
