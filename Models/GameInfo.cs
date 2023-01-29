@@ -2,10 +2,10 @@
 {
     public class GameInfo
     {
-        public string? nick1 { get; set; }
-        public int score1 { get; set; }
-        public string? nick2 { get; set; }
-        public int score2 { get; set; }
+        public string? white_nick { get; set; }
+        public int white_score { get; set; }
+        public string? black_nick { get; set; }
+        public int black_score { get; set; }
         public int move_time { get; set; }
         public int rules_id { get; set; }
     }
