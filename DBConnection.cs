@@ -56,6 +56,15 @@ namespace server_red
         public static UserCon getUserConnection(String session, IConfiguration config)
         {
             UserCon? user = connections.Find(item => item.GetSession().Equals(session));
+            Console.WriteLine(user);
+            Console.WriteLine(typeof(UserCon));
+            try
+            {
+                Console.WriteLine(user.GetSession);
+                Console.WriteLine(user.GetOracleConnection().ToString());
+            }
+            catch (Exception _) { }
+
             if (user == null)
             {
                 Console.WriteLine("New connection");
