@@ -24,12 +24,8 @@ namespace server_red
                 if (oraCon != null && oraCon.State == System.Data.ConnectionState.Closed)
                 {
                     oraCon.Open();
-                    oraCmd.ExecuteReader();
                 }
-                else
-                {
-                    throw new Exception("Need to create new connection");
-                }
+                oraCmd.ExecuteReader();
             }
             catch (Exception ex)
             {
