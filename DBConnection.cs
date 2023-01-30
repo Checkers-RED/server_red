@@ -59,9 +59,11 @@ namespace server_red
 
             if (!userExist)
             {
-                Console.WriteLine("New connection");
-                return addUserConnection(session, config);
+                UserCon? user = addUserConnection(session, config);
+                Console.WriteLine("New user: " + user.GetSession());
+                return user;
             }
+
             UserCon? user = connections.Find(item => item.GetSession().Equals(session));
             Console.WriteLine("Got user: " + user.GetSession());
             return user;

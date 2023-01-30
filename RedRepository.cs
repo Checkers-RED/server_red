@@ -791,8 +791,10 @@ namespace server_red
 
         public int IsInMatch(string cur_session)
         {
+            Console.WriteLine("---------->" + cur_session);
             var userCon = DBConnection.getUserConnection(cur_session, configuration);
             var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
