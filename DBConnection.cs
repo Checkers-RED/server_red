@@ -21,16 +21,23 @@ namespace server_red
                 oraCmd = oraCon!.CreateCommand();
                 oraCmd.CommandType = System.Data.CommandType.Text;
                 oraCmd.CommandText = "Update test_table set dt = sysdate where idd = 13";
-                if (oraCon != null && oraCon.State != System.Data.ConnectionState.Open)
+                if (oraCon != null && oraCon.State == System.Data.ConnectionState.Closed)
                 {
                     oraCon.Open();
+                    oraCmd.ExecuteReader();
                 }
-                oraCmd.ExecuteReader();
+                else
+                {
+                    throw new Exception("Need to create new connection");
+                }
             }
             catch (Exception ex)
             {
+                Console.WriteLine("---------------New Session Start---------------");
+                DestroyConnection();
                 Console.WriteLine(ex.Message);
-                StartupInitNewConnection(config);
+                RestartConnection(config);
+                Console.WriteLine("----------------New Session End----------------");
             }
             return oraCon;
         }
@@ -46,6 +53,7 @@ namespace server_red
 
             InitNewConnection(user, pwd, db, tail, pool);
         }
+
 
         public static void InitNewConnection(string? user, string? pwd, string? db, string? tail, string? pool)
         {
@@ -83,19 +91,48 @@ namespace server_red
                     }
                 }
             }
-            throw new Exception();
+            throw new Exception("What? How did you get there?");
         }
 
         public static void DestroyConnection()
         {
             if (oraCon != null)
             {
-                if (oraCon.State != System.Data.ConnectionState.Open)
-                {
-                    oraCon.Close();
-                }
+                oraCon.Close();
                 oraCon = null;
             }
+        }
+
+        public static void RestartConnection(IConfiguration config)
+        {
+            string? user = config.GetSection("ConnectionStrings").GetSection("user").Value;
+            string? pwd = config.GetSection("ConnectionStrings").GetSection("pwd").Value;
+            string? db = config.GetSection("ConnectionStrings").GetSection("db").Value;
+            string? tail = config.GetSection("ConnectionStrings").GetSection("tail").Value;
+            string? pool = config.GetSection("ConnectionStrings").GetSection("pool").Value;
+
+
+            while (true)
+            {
+                //При первом запуске считаем, что админ имеет на руках корректные имя пользователя или пароль.
+
+                string conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail + ";" + pool;
+                using (OracleConnection con = new OracleConnection(conStringUser))
+                {
+                    try
+                    {
+                        con.Open();
+                        SetOraCon(con);
+                        con.Close();
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Connection retry: " + DateTime.Now.ToString());
+                    }
+                }
+            }
+            throw new Exception("What? How did you get there?");
         }
     }
 }
