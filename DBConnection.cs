@@ -39,7 +39,7 @@ namespace server_red
                 this.conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail + ";" + pool;
 
                 this.session = session;
-                this.connection = DupeConnection(SilentConnection(this.conStringUser));
+                this.connection = SilentConnection(this.conStringUser);
                 var cmd = connection!.CreateCommand();
             }
         }
@@ -56,20 +56,14 @@ namespace server_red
         public static UserCon getUserConnection(String session, IConfiguration config)
         {
             UserCon? user = connections.Find(item => item.GetSession().Equals(session));
-            Console.WriteLine(user);
-            Console.WriteLine(typeof(UserCon));
-            try
-            {
-                Console.WriteLine(user.GetSession);
-                Console.WriteLine(user.GetOracleConnection().ToString());
-            }
-            catch (Exception _) { }
 
             if (user == null)
             {
                 Console.WriteLine("New connection");
                 user = addUserConnection(session, config);
             }
+            Console.WriteLine(user.GetSession);
+            Console.WriteLine(user.GetOracleConnection());
             return user;
         }
 
@@ -177,18 +171,19 @@ namespace server_red
         {
             try
             {
-                if (oraCon != null && oraCon.State == System.Data.ConnectionState.Closed)
+                if (oraCon != null && oraCon.State != System.Data.ConnectionState.Open)
                 {
                     oraCon.Open();
                 }
                 oraCmd.ExecuteReader();
+
+                return oraCon;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                oraCon = SilentConnection(conStringUser);
+                return SilentConnection(conStringUser);
             }
-            return oraCon;
         }
     }
 }
