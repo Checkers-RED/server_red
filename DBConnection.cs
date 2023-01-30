@@ -55,15 +55,15 @@ namespace server_red
 
         public static UserCon getUserConnection(String session, IConfiguration config)
         {
-            UserCon? user = connections.Find(item => item.GetSession().Equals(session));
+            bool userExist = connections.Exists(item => item.GetSession().Equals(session));
 
-            if (user == null)
+            if (!userExist)
             {
                 Console.WriteLine("New connection");
-                user = addUserConnection(session, config);
+                return addUserConnection(session, config);
             }
-            Console.WriteLine(user.GetSession);
-            Console.WriteLine(user.GetOracleConnection());
+            UserCon? user = connections.Find(item => item.GetSession().Equals(session));
+            Console.WriteLine("Got user: " + user.GetSession());
             return user;
         }
 
