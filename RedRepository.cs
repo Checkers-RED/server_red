@@ -13,15 +13,15 @@ namespace server_red
 
         public RedRepository(IConfiguration configuration)
         {
-            //con = DBConnection.getOraCon(configuration);
-            //cmd = con.CreateCommand();
+            con = DBConnection.InitNewConnection(configuration);
+            cmd = con!.CreateCommand();
             config = configuration;
         }
 
         public int AcceptMatch(string cur_session, string org_nick)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
 
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -55,8 +55,8 @@ namespace server_red
 
         public int AddFriend(string cur_session, int f_id)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -89,8 +89,8 @@ namespace server_red
 
         public string AnsQues(string token, string answer)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
@@ -123,8 +123,8 @@ namespace server_red
 
         public string ChangePass(string token, string newPass)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
@@ -157,8 +157,8 @@ namespace server_red
 
         public string CreateAccount(string username, string password, string question, string answer)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -196,8 +196,8 @@ namespace server_red
 
         public int DeleteFriend(string cur_session, int f_id)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -230,8 +230,8 @@ namespace server_red
 
         public int EndMatch(string cur_session, string color_win)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -264,8 +264,8 @@ namespace server_red
 
         public string GetActiveColor(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -297,8 +297,8 @@ namespace server_red
 
         public ActMoveTimeColor GetActMoveTimeColor(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -330,8 +330,8 @@ namespace server_red
 
         public int GetBeatFlag(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -363,8 +363,8 @@ namespace server_red
 
         public List<User> GetFriendlist(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -405,8 +405,8 @@ namespace server_red
 
         public GameInfo GetGameInfo(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -447,8 +447,8 @@ namespace server_red
 
         public int GetInvitedFriendId(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -480,8 +480,8 @@ namespace server_red
 
         public List<Move> GetMovesList(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -521,8 +521,8 @@ namespace server_red
 
         public List<Notif> GetNotiflist(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -563,8 +563,8 @@ namespace server_red
 
         public Opponent GetOpponentInfo(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -607,8 +607,8 @@ namespace server_red
 
         public UserScore GetUserScore(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -650,8 +650,8 @@ namespace server_red
 
         public int GiveUp(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -683,8 +683,8 @@ namespace server_red
 
         public int InRankedMatch(string cur_session, int rules)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -717,8 +717,8 @@ namespace server_red
 
         public void InsertMovesList(string cur_session, string note)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -752,8 +752,8 @@ namespace server_red
 
         public int InviteFriend(string cur_session, int f_id, int move_time, int rules_id)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -788,8 +788,8 @@ namespace server_red
 
         public int IsInMatch(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -821,8 +821,8 @@ namespace server_red
 
         public int IsInRankedMatch(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -854,8 +854,8 @@ namespace server_red
 
         public int IsNotInRankedMatch(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -887,8 +887,8 @@ namespace server_red
 
         public void NewMatch()
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -919,8 +919,8 @@ namespace server_red
 
         public int OutRankedMatch(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -952,8 +952,8 @@ namespace server_red
 
         public int RejectMatch(string cur_session, string org_nick)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -989,8 +989,8 @@ namespace server_red
 
         public ReqNick ReqNick(string username)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -1029,8 +1029,8 @@ namespace server_red
 
         public int RevokeMatch(string cur_session, int f_id)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1063,8 +1063,8 @@ namespace server_red
 
         public List<Checker> SessionCheckersBlack(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1125,8 +1125,8 @@ namespace server_red
 
         public List<Checker> SessionCheckersWhite(string cur_session)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1187,8 +1187,8 @@ namespace server_red
 
         public int SetActiveColor(string cur_session, string color)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1221,8 +1221,8 @@ namespace server_red
 
         public int SetBeatFlag(string cur_session, int beat_flag)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1255,8 +1255,8 @@ namespace server_red
 
         public string SignIn(string username, string password)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -1327,8 +1327,8 @@ namespace server_red
 
         public int UpdateCheckersField(string cur_session, string color, int fx, int fy, int king, int beaten, bool delete_old)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1366,8 +1366,8 @@ namespace server_red
 
         public User UserSearch(string username)
         {
-            con = DBConnection.getOraCon(config);
-            cmd = con!.CreateCommand();
+            //con = DBConnection.getOraCon(config);
+            //cmd = con!.CreateCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;

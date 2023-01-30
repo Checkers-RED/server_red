@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<DBConnection>();
 builder.Services.AddScoped<IRedRepository, RedRepository>();
 
-//DBConnection.StartupInitNewConnection(builder.Configuration);
+//DBConnection.SetOraCon(DBConnection.InitNewConnection(builder.Configuration));
 
 var app = builder.Build();
 
