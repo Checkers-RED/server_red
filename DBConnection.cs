@@ -1,10 +1,70 @@
 ﻿using Oracle.ManagedDataAccess.Client;
-
+using System.Collections;
 
 namespace server_red
 {
     public class DBConnection
     {
+        public class UserCon
+        {
+            private String session;
+            private OracleConnection connection;
+            private OracleCommand cmd;
+
+            private string conStringUser = "";
+
+            public String GetSession()
+            {
+                return session;
+            }
+
+            public OracleConnection GetOracleConnection()
+            {
+                return CheckOraCon(connection, cmd, conStringUser);
+            }
+
+            public OracleCommand GetOracleCommand()
+            {
+                return cmd;
+            }
+
+            public UserCon(String session, IConfiguration config)
+            {
+                string? user = config.GetSection("ConnectionStrings").GetSection("user").Value;
+                string? pwd = config.GetSection("ConnectionStrings").GetSection("pwd").Value;
+                string? db = config.GetSection("ConnectionStrings").GetSection("db").Value;
+                string? tail = config.GetSection("ConnectionStrings").GetSection("tail").Value;
+                string? pool = config.GetSection("ConnectionStrings").GetSection("pool").Value;
+
+                this.conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail + ";" + pool;
+
+                this.session = session;
+                this.connection = DupeConnection(SilentConnection(this.conStringUser));
+                var cmd = connection!.CreateCommand();
+            }
+        }
+
+        private static List<UserCon> connections = new List<UserCon>();
+
+        private static UserCon addUserConnection(String session, IConfiguration config)
+        {
+            UserCon newUser = new UserCon(session, config);
+            connections.Add(newUser);
+            return newUser;
+        }
+
+        public static UserCon getUserConnection(String session, IConfiguration config)
+        {
+            UserCon? user = connections.Find(item => item.GetSession().Equals(session));
+            if (user == null)
+            {
+                Console.WriteLine("New connection");
+                user = addUserConnection(session, config);
+            }
+            return user;
+        }
+
+
         private static OracleConnection DupeConnection(OracleConnection oracleConnection)
         {
             return (OracleConnection?)oracleConnection.Clone();
@@ -82,14 +142,32 @@ namespace server_red
             throw new Exception("What? How did you get there?");
         }
 
-        /*
-        public static OracleConnection? getOraCon(IConfiguration config)
+        //Чмолиморфизм на уровне параметров
+        public static OracleConnection SilentConnection(string conStringUser)
+        {
+            while (true)
+            {
+                using (OracleConnection con = new OracleConnection(conStringUser))
+                {
+                    try
+                    {
+                        con.Open();
+                        con.Close();
+                        return DupeConnection(con);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Connection retry: " + DateTime.Now.ToString());
+                    }
+                }
+            }
+            throw new Exception("What? How did you get there?");
+        }
+
+        private static OracleConnection CheckOraCon(OracleConnection oraCon, OracleCommand oraCmd, string conStringUser)
         {
             try
             {
-                oraCmd = oraCon!.CreateCommand();
-                oraCmd.CommandType = System.Data.CommandType.Text;
-                oraCmd.CommandText = "Update test_table set dt = sysdate where idd = 13";
                 if (oraCon != null && oraCon.State == System.Data.ConnectionState.Closed)
                 {
                     oraCon.Open();
@@ -98,14 +176,10 @@ namespace server_red
             }
             catch (Exception ex)
             {
-                Console.WriteLine("---------------New Session Start---------------");
-                DestroyConnection();
                 Console.WriteLine(ex.Message);
-                SetOraCon(RestartConnection(config));
-                Console.WriteLine("----------------New Session End----------------");
+                oraCon = SilentConnection(conStringUser);
             }
             return oraCon;
         }
-        */
     }
 }

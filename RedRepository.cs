@@ -20,8 +20,8 @@ namespace server_red
 
         public int AcceptMatch(string cur_session, string org_nick)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
 
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -55,8 +55,8 @@ namespace server_red
 
         public int AddFriend(string cur_session, int f_id)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -91,6 +91,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
@@ -125,6 +126,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("ptoken", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = token;
@@ -159,6 +161,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -196,8 +199,8 @@ namespace server_red
 
         public int DeleteFriend(string cur_session, int f_id)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -230,8 +233,8 @@ namespace server_red
 
         public int EndMatch(string cur_session, string color_win)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -264,8 +267,8 @@ namespace server_red
 
         public string GetActiveColor(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -297,8 +300,8 @@ namespace server_red
 
         public ActMoveTimeColor GetActMoveTimeColor(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -330,8 +333,8 @@ namespace server_red
 
         public int GetBeatFlag(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -363,8 +366,8 @@ namespace server_red
 
         public List<User> GetFriendlist(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -405,8 +408,8 @@ namespace server_red
 
         public GameInfo GetGameInfo(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -447,8 +450,8 @@ namespace server_red
 
         public int GetInvitedFriendId(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -480,8 +483,8 @@ namespace server_red
 
         public List<Move> GetMovesList(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -521,8 +524,8 @@ namespace server_red
 
         public List<Notif> GetNotiflist(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -563,8 +566,8 @@ namespace server_red
 
         public Opponent GetOpponentInfo(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -607,8 +610,8 @@ namespace server_red
 
         public UserScore GetUserScore(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -650,8 +653,8 @@ namespace server_red
 
         public int GiveUp(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -683,8 +686,8 @@ namespace server_red
 
         public int InRankedMatch(string cur_session, int rules)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -717,8 +720,8 @@ namespace server_red
 
         public void InsertMovesList(string cur_session, string note)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -752,8 +755,8 @@ namespace server_red
 
         public int InviteFriend(string cur_session, int f_id, int move_time, int rules_id)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -788,8 +791,8 @@ namespace server_red
 
         public int IsInMatch(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -821,8 +824,8 @@ namespace server_red
 
         public int IsInRankedMatch(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -854,8 +857,8 @@ namespace server_red
 
         public int IsNotInRankedMatch(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -889,6 +892,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("rfcur", OracleDbType.RefCursor, System.Data.ParameterDirection.Output);
@@ -919,8 +923,8 @@ namespace server_red
 
         public int OutRankedMatch(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -952,8 +956,8 @@ namespace server_red
 
         public int RejectMatch(string cur_session, string org_nick)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -991,6 +995,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -1029,8 +1034,8 @@ namespace server_red
 
         public int RevokeMatch(string cur_session, int f_id)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1063,8 +1068,8 @@ namespace server_red
 
         public List<Checker> SessionCheckersBlack(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1125,8 +1130,8 @@ namespace server_red
 
         public List<Checker> SessionCheckersWhite(string cur_session)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1187,8 +1192,8 @@ namespace server_red
 
         public int SetActiveColor(string cur_session, string color)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1221,8 +1226,8 @@ namespace server_red
 
         public int SetBeatFlag(string cur_session, int beat_flag)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1257,6 +1262,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
@@ -1327,8 +1333,8 @@ namespace server_red
 
         public int UpdateCheckersField(string cur_session, string color, int fx, int fy, int king, int beaten, bool delete_old)
         {
-            var con = DBConnection.SilentConnection(configuration);
-            var cmd = con!.CreateCommand();
+            var userCon = DBConnection.getUserConnection(cur_session, configuration);
+            var con = userCon.GetOracleConnection(); var cmd = userCon.GetOracleCommand();
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("pcur_s", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = cur_session;
@@ -1368,6 +1374,7 @@ namespace server_red
         {
             var con = DBConnection.SilentConnection(configuration);
             var cmd = con!.CreateCommand();
+
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.Add("plogin", OracleDbType.Varchar2, System.Data.ParameterDirection.Input).Value = username;
