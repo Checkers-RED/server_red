@@ -111,6 +111,7 @@ namespace server_red
             while (true)
             {
                 //При первом запуске считаем, что админ имеет на руках корректные имя пользователя или пароль.
+                Thread.Sleep(5000);
 
                 string conStringUser = "User Id=" + user + ";Password=" + pwd + ";Data Source=" + db + ";" + tail + ";" + pool;
                 using (OracleConnection con = new OracleConnection(conStringUser))
