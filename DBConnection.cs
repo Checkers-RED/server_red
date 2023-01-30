@@ -53,7 +53,7 @@ namespace server_red
         }
 
 
-        public static OracleConnection RestartConnection(IConfiguration config)
+        public static OracleConnection SilentConnection(IConfiguration config)
         {
             string? user = config.GetSection("ConnectionStrings").GetSection("user").Value;
             string? pwd = config.GetSection("ConnectionStrings").GetSection("pwd").Value;
