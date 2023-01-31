@@ -57,15 +57,22 @@ namespace server_red
         {
             bool userExist = connections.Exists(item => item.GetSession().Equals(session));
 
+            Console.WriteLine("-----START-----");
+            Console.WriteLine("User" + session + " is exists: " + userExist);
+            connections.ForEach(item => Console.WriteLine(item.GetSession() + " " + item.GetOracleConnection().State));
+            Console.WriteLine("------END------");
+
             if (!userExist)
             {
                 UserCon? newUser = addUserConnection(session, config);
                 Console.WriteLine("New user: " + newUser.GetSession());
+                Console.WriteLine("Connection status: " + newUser.GetOracleConnection().State);
                 return newUser;
             }
 
             UserCon? gotUser = connections.Find(item => item.GetSession().Equals(session));
             Console.WriteLine("Got user: " + gotUser.GetSession());
+            Console.WriteLine("Connection status: " + gotUser.GetOracleConnection().State);
             return gotUser;
         }
 
