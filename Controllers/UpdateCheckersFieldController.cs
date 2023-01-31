@@ -12,8 +12,8 @@ namespace server_red.Controllers
         class input
         {
             public string? cur_session { get; set; }
-            public Checker[] white = new Checker[12]();
-            public Checker[] black = new Checker[12]();
+            public Checker[] white = new Checker[12];
+            public Checker[] black = new Checker[12];
             public int previous_horiz { get; set; }
             public int previous_vertic { get; set; }
             public int new_horiz { get; set; }
@@ -33,7 +33,7 @@ namespace server_red.Controllers
                 input inres = JsonSerializer.Deserialize<CurSession>(data);
                 if (inres != null)
                 {
-                    for(int i = 0; i < inres.white.Count; i++)
+                    for(int i = 0; i < inres.white.Length; i++)
                     {
                         bool delete_old = false; // нужно ли удалять все шашки текущего матча (удаляются при занесении 1й шашки)
                         if (i == 0)
@@ -46,7 +46,7 @@ namespace server_red.Controllers
                             return BadRequest();
                         }
                     }
-                    for (int i = 0; i < inres.black.Count; i++)
+                    for (int i = 0; i < inres.black.Length; i++)
                     {
                         bool delete_old = false;
                         int res = _db.UpdateCheckersField(inres.cur_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[0].vertic, Convert.ToInt32(inres.black[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
