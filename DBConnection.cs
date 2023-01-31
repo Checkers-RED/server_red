@@ -40,7 +40,7 @@ namespace server_red
 
                 this.session = session;
                 this.connection = SilentConnection(this.conStringUser);
-                var cmd = connection!.CreateCommand();
+                this.cmd = connection!.CreateCommand();
             }
         }
 

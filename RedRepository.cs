@@ -6,9 +6,6 @@ namespace server_red
 {
     public class RedRepository : IRedRepository
     {
-        private static OracleConnection? con;
-        private OracleCommand? cmd;
-        private OracleDataReader? dr;
         private IConfiguration configuration;
 
         public RedRepository(IConfiguration configuration)
@@ -37,7 +34,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr!.HasRows)
                 {
                     dr.Read();
@@ -71,7 +68,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -106,7 +103,7 @@ namespace server_red
             string res = "";
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -141,7 +138,7 @@ namespace server_red
             string res = "";
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -180,7 +177,7 @@ namespace server_red
             string res = "none";
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 if (dr.HasRows)
                 {
@@ -215,7 +212,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -249,7 +246,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -282,7 +279,7 @@ namespace server_red
             string res = "none";
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -315,7 +312,7 @@ namespace server_red
             ActMoveTimeColor m = new ActMoveTimeColor();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -348,7 +345,7 @@ namespace server_red
             int res = -1;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -381,7 +378,7 @@ namespace server_red
             List<User> res = new List<User>();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
@@ -423,7 +420,7 @@ namespace server_red
             GameInfo g = new GameInfo();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -465,7 +462,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr!.HasRows)
                 {
                     dr.Read();
@@ -498,7 +495,7 @@ namespace server_red
             List<Move> res = new List<Move>();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
@@ -539,7 +536,7 @@ namespace server_red
             List<Notif> res = new List<Notif>();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
@@ -581,7 +578,7 @@ namespace server_red
             Opponent o = new Opponent();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -625,7 +622,7 @@ namespace server_red
             UserScore u = new UserScore();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -668,7 +665,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -702,7 +699,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr!.HasRows)
                 {
                     dr.Read();
@@ -736,7 +733,7 @@ namespace server_red
             try
             {
                 //cmd.ExecuteReader();
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
@@ -773,7 +770,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -808,7 +805,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -841,7 +838,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -874,7 +871,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -906,7 +903,7 @@ namespace server_red
             }
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 dr.Close();
             }
             catch (Exception ex) { Console.WriteLine(ex); }
@@ -940,7 +937,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -974,7 +971,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -1011,7 +1008,7 @@ namespace server_red
             ReqNick r = new ReqNick();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 //List <string> res = new List<string>();
                 if (dr.HasRows)
                 {
@@ -1052,7 +1049,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -1085,7 +1082,7 @@ namespace server_red
             List<Checker> res = new List<Checker>();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
@@ -1147,7 +1144,7 @@ namespace server_red
             List<Checker> res = new List<Checker>();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     while (dr.Read())
@@ -1210,7 +1207,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -1244,7 +1241,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -1282,7 +1279,7 @@ namespace server_red
             try
             {
                 // cmd.ExecuteReader();
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 //List<string> res_list = new List<string>(1);
                 if (dr.HasRows)
                 {
@@ -1356,7 +1353,7 @@ namespace server_red
             int res = 0;
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
@@ -1390,7 +1387,7 @@ namespace server_red
             User u = new User();
             try
             {
-                dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
                 if (dr.HasRows)
                 {
                     dr.Read();
