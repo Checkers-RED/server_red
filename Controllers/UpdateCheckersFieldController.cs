@@ -12,8 +12,8 @@ namespace server_red.Controllers
         class input
         {
             public string? cur_session { get; set; }
-            public Checker[] white = new Checker[12];
-            public Checker[] black = new Checker[12];
+            public Checker[] white { get; set; }
+            public Checker[] black { get; set; }
             public int previous_horiz { get; set; }
             public int previous_vertic { get; set; }
             public int new_horiz { get; set; }
