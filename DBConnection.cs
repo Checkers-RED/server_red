@@ -52,7 +52,7 @@ namespace server_red
         {
             UserCon newUser = new UserCon(session, config);
             connections.Add(newUser);
-            Console.WriteLine("Added new user: " + newUser);
+            //Console.WriteLine("Added new user: " + newUser);
             return newUser;
         }
 
@@ -68,28 +68,28 @@ namespace server_red
                 Console.WriteLine(ex);
             }
 
-            Console.WriteLine("-----START-----");
-            Console.WriteLine("User \"" + session + "\" is exists: " + userExist);
-            connections.ForEach(item => Console.WriteLine(item.GetSession() + " " + item.GetOracleConnection().State));
-            Console.WriteLine("------END------");
+            //Console.WriteLine("-----START-----");
+            //Console.WriteLine("User \"" + session + "\" is exists: " + userExist);
+            //connections.ForEach(item => Console.WriteLine(item.GetSession() + " " + item.GetOracleConnection().State));
+            //Console.WriteLine("------END------");
 
             if (!userExist)
             {
                 if (session.Equals(""))
                 {
-                    Console.WriteLine("Got empty session");
+                    //Console.WriteLine("Got empty session");
                     return new UserCon(session, config);
                 }
 
                 UserCon? newUser = addUserConnection(session, config);
-                Console.WriteLine("Adding new user: " + newUser.GetSession());
-                Console.WriteLine("Connection status: " + newUser.GetOracleConnection().State);
+                //Console.WriteLine("Adding new user: " + newUser.GetSession());
+                //Console.WriteLine("Connection status: " + newUser.GetOracleConnection().State);
                 return newUser;
             }
 
             UserCon? gotUser = connections.Find(item => item.GetSession().Equals(session));
-            Console.WriteLine("Got user: " + gotUser.GetSession());
-            Console.WriteLine("Connection status: " + gotUser.GetOracleConnection().State);
+            //Console.WriteLine("Got user: " + gotUser.GetSession());
+            //Console.WriteLine("Connection status: " + gotUser.GetOracleConnection().State);
             return gotUser;
         }
 
