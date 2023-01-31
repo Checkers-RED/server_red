@@ -61,7 +61,7 @@ namespace server_red
             bool userExist = false;
             try
             {
-                userExist = connections.Exists(item => item.GetSession().Equals(session));
+                userExist = connections.Any(item => item.GetSession().Equals(session));
             }
             catch (Exception ex)
             {
@@ -69,13 +69,13 @@ namespace server_red
             }
 
             Console.WriteLine("-----START-----");
-            Console.WriteLine("User" + session + " is exists: " + userExist);
+            Console.WriteLine("User \"" + session + "\" is exists: " + userExist);
             connections.ForEach(item => Console.WriteLine(item.GetSession() + " " + item.GetOracleConnection().State));
             Console.WriteLine("------END------");
 
             if (!userExist)
             {
-                if (session == "")
+                if (session.Equals(""))
                 {
                     Console.WriteLine("Got empty session");
                     return new UserCon(session, config);
