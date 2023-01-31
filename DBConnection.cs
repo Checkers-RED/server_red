@@ -184,7 +184,6 @@ namespace server_red
                 {
                     oraCon.Open();
                 }
-                oraCmd.ExecuteReader();
 
                 return oraCon;
             }
