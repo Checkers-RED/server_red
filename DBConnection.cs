@@ -20,7 +20,9 @@ namespace server_red
 
             public OracleConnection GetOracleConnection()
             {
-                return CheckOraCon(connection, cmd, conStringUser);
+                connection = CheckOraCon(connection, conStringUser);
+                cmd = connection!.CreateCommand();
+                return connection;
             }
 
             public OracleCommand GetOracleCommand()
@@ -50,12 +52,19 @@ namespace server_red
         {
             UserCon newUser = new UserCon(session, config);
             connections.Add(newUser);
+            Console.WriteLine("Added new user: " + newUser)
             return newUser;
         }
 
         public static UserCon getUserConnection(String session, IConfiguration config)
         {
-            bool userExist = connections.Exists(item => item.GetSession().Equals(session));
+            bool userExist = false;
+            try { 
+                userExist = connections.Exists(item => item.GetSession().Equals(session));
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
 
             Console.WriteLine("-----START-----");
             Console.WriteLine("User" + session + " is exists: " + userExist);
@@ -64,8 +73,14 @@ namespace server_red
 
             if (!userExist)
             {
+                if (session == "")
+                {
+                    Console.WriteLine("Got empty session");
+                    return new UserCon(session, config);
+                }
+
                 UserCon? newUser = addUserConnection(session, config);
-                Console.WriteLine("New user: " + newUser.GetSession());
+                Console.WriteLine("Adding new user: " + newUser.GetSession());
                 Console.WriteLine("Connection status: " + newUser.GetOracleConnection().State);
                 return newUser;
             }
@@ -176,7 +191,7 @@ namespace server_red
             throw new Exception("What? How did you get there?");
         }
 
-        private static OracleConnection CheckOraCon(OracleConnection oraCon, OracleCommand oraCmd, string conStringUser)
+        private static OracleConnection CheckOraCon(OracleConnection oraCon, string conStringUser)
         {
             try
             {
