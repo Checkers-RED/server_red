@@ -11,7 +11,7 @@ namespace server_red.Controllers
     {
         class input
         {
-            public string? cur_session { get; set; }
+            public string? current_session { get; set; }
             public Checker[] white { get; set; }
             public Checker[] black { get; set; }
             public int previous_horiz { get; set; }
@@ -30,7 +30,7 @@ namespace server_red.Controllers
         {
             try
             {
-                input inres = JsonSerializer.Deserialize<CurSession>(data);
+                input inres = JsonSerializer.Deserialize<input>(data);
                 if (inres != null)
                 {
                     for(int i = 0; i < inres.white.Length; i++)
@@ -40,7 +40,7 @@ namespace server_red.Controllers
                         {
                             delete_old = true;
                         }
-                        int res = _db.UpdateCheckersField(inres.cur_session!, inres.white[i].color!, inres.white[i].horiz, inres.white[0].vertic, Convert.ToInt32(inres.white[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
+                        int res = _db.UpdateCheckersField(inres.current_session!, inres.white[i].color!, inres.white[i].horiz, inres.white[0].vertic, Convert.ToInt32(inres.white[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
                         if (res == 0) // с какой-то из шашек проблема. тут потеряются все шашки, которые были до удаления (начала обновления), а новые до конца не проставятся -_-
                         {
                             return BadRequest();
@@ -49,7 +49,7 @@ namespace server_red.Controllers
                     for (int i = 0; i < inres.black.Length; i++)
                     {
                         bool delete_old = false;
-                        int res = _db.UpdateCheckersField(inres.cur_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[0].vertic, Convert.ToInt32(inres.black[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
+                        int res = _db.UpdateCheckersField(inres.current_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[0].vertic, Convert.ToInt32(inres.black[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
                         if (res == 0) // с какой-то из шашек проблема. тут потеряются все шашки, которые были до удаления (начала обновления), а новые до конца не проставятся -_-
                         {
                             return BadRequest();
@@ -153,7 +153,7 @@ namespace server_red.Controllers
                         }
 
                         string note = prev + "-" + newh;
-                        _db.InsertMovesList(inres.cur_session!, note);
+                        _db.InsertMovesList(inres.current_session!, note);
                     }
                     return Ok();
                 }
