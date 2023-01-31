@@ -12,8 +12,8 @@ namespace server_red.Controllers
         class input
         {
             public string? cur_session { get; set; }
-            public List<Checker> white = new List<Checker>();
-            public List<Checker> black = new List<Checker>();
+            public Checker[] white = new Checker[12]();
+            public Checker[] black = new Checker[12]();
             public int previous_horiz { get; set; }
             public int previous_vertic { get; set; }
             public int new_horiz { get; set; }
@@ -49,7 +49,7 @@ namespace server_red.Controllers
                     for (int i = 0; i < inres.black.Count; i++)
                     {
                         bool delete_old = false;
-                        int res = _db.UpdateCheckersField(inres.cur_session!, inres.white[i].color!, inres.white[i].horiz, inres.white[0].vertic, Convert.ToInt32(inres.white[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
+                        int res = _db.UpdateCheckersField(inres.cur_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[0].vertic, Convert.ToInt32(inres.black[0].isQueen), Convert.ToInt32(inres.white[0].isBeaten), delete_old);
                         if (res == 0) // с какой-то из шашек проблема. тут потеряются все шашки, которые были до удаления (начала обновления), а новые до конца не проставятся -_-
                         {
                             return BadRequest();
