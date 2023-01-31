@@ -52,15 +52,17 @@ namespace server_red
         {
             UserCon newUser = new UserCon(session, config);
             connections.Add(newUser);
-            Console.WriteLine("Added new user: " + newUser)
+            Console.WriteLine("Added new user: " + newUser);
             return newUser;
         }
 
         public static UserCon getUserConnection(String session, IConfiguration config)
         {
             bool userExist = false;
-            try { 
+            try
+            {
                 userExist = connections.Exists(item => item.GetSession().Equals(session));
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
