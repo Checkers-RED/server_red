@@ -1092,8 +1092,10 @@ namespace server_red
                             {
                                 Checker c = new Checker();
                                 c.color = dr.GetValue(0).ToString();
-                                c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
-                                c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
+                                c.horiz = Convert.ToInt32(dr.GetValue(2).ToString());
+                                c.vertic = Convert.ToInt32(dr.GetValue(1).ToString());
+                                //c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
+                                //c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
                                 if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
                                 {
                                     c.isQueen = true;
@@ -1154,8 +1156,10 @@ namespace server_red
                             {
                                 Checker c = new Checker();
                                 c.color = dr.GetValue(0).ToString();
-                                c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
-                                c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
+                                c.horiz = Convert.ToInt32(dr.GetValue(2).ToString());
+                                c.vertic = Convert.ToInt32(dr.GetValue(1).ToString());
+                                //c.horiz = Convert.ToInt32(dr.GetValue(1).ToString());
+                                //c.vertic = Convert.ToInt32(dr.GetValue(2).ToString());
                                 if (Convert.ToInt32(dr.GetValue(3).ToString()) == 1)
                                 {
                                     c.isQueen = true;
