@@ -42,8 +42,9 @@ namespace server_red.Controllers
                         {
                             delete_old = true;
                         }
-                        int res = _db.UpdateCheckersField(inres.current_session!, inres.white[i].color!, inres.white[i].horiz, inres.white[i].vertic, Convert.ToInt32(inres.white[i].isQueen), Convert.ToInt32(inres.white[i].isBeaten), delete_old);
-                       // Console.WriteLine($"After White UpdateCheckersField {i}");
+                        int res = _db.UpdateCheckersField(inres.current_session!, inres.white[i].color!, inres.white[i].vertic, inres.white[i].horiz, Convert.ToInt32(inres.white[i].isQueen), Convert.ToInt32(inres.white[i].isBeaten), delete_old);
+                        //int res = _db.UpdateCheckersField(inres.current_session!, inres.white[i].color!, inres.white[i].horiz, inres.white[i].vertic, Convert.ToInt32(inres.white[i].isQueen), Convert.ToInt32(inres.white[i].isBeaten), delete_old);
+                        // Console.WriteLine($"After White UpdateCheckersField {i}");
                         if (res == 0) // с какой-то из шашек проблема. тут потеряются все шашки, которые были до удаления (начала обновления), а новые до конца не проставятся -_-
                         {
                            // Console.WriteLine($"White UpdateCheckersField res == 0, i == {i}");
@@ -54,7 +55,8 @@ namespace server_red.Controllers
                     {
                        // Console.WriteLine($"Black i={i}");
                         bool delete_old = false;
-                        int res = _db.UpdateCheckersField(inres.current_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[i].vertic, Convert.ToInt32(inres.black[i].isQueen), Convert.ToInt32(inres.black[i].isBeaten), delete_old);
+                        int res = _db.UpdateCheckersField(inres.current_session!, inres.black[i].color!, inres.black[i].vertic, inres.black[i].horiz, Convert.ToInt32(inres.black[i].isQueen), Convert.ToInt32(inres.black[i].isBeaten), delete_old);
+                        //int res = _db.UpdateCheckersField(inres.current_session!, inres.black[i].color!, inres.black[i].horiz, inres.black[i].vertic, Convert.ToInt32(inres.black[i].isQueen), Convert.ToInt32(inres.black[i].isBeaten), delete_old);
                        // Console.WriteLine($"After Bkack UpdateCheckersField {i}");
                         if (res == 0) // с какой-то из шашек проблема. тут потеряются все шашки, которые были до удаления (начала обновления), а новые до конца не проставятся -_-
                         {
